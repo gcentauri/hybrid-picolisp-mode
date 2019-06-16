@@ -15,11 +15,11 @@
 ;; For comments, bug reports, questions, etc, you can contact the
 ;; first author via IRC to the user named grpala (or armadillo) on
 ;; irc.freenode.net in the #picolisp channel or via email to the
-;; author's nickname at gmail.com 
-;; 
-;; Or contact the second author and curent maintainer via email: 
+;; author's nickname at gmail.com
+;;
+;; Or contact the second author and curent maintainer via email:
 ;; t <lastname in lowercase letters> AT gmail DOT com
-;; 
+;;
 ;;;; License:
 ;; This work is released under the GPL 2 or (at your option) any later
 ;; version.
@@ -175,7 +175,7 @@
     ;; more convenient than "C-ck"
     (define-key map "\C-c\C-v" 'picolisp-edit-K)
     ;; more convenient than "C-cq"
-    (define-key map "\C-c\C-c" 'picolisp-edit-Q) 
+    (define-key map "\C-c\C-c" 'picolisp-edit-Q)
     ;; not necesary: picolisp-edit-Q exits on last undo
     ;; (define-key map "\C-q" '(save-buffers-kill-terminal 1))
 
@@ -216,6 +216,7 @@ if that value is non-nil."
   (setq mode-name "Picolisp")
   (picolisp-mode-variables)
   (run-mode-hooks 'picolisp-mode-hook)
+  (setq-local eldoc-documentation-function #'picolisp--eldoc-function)
   (defun paredit-delete-leading-whitespace ()
     (picolisp-delete-leading-whitespace) ) )
 
@@ -246,7 +247,7 @@ See `run-hooks'."
     (list
      ;;
      ;; Declarations.
-     (list 
+     (list
       (concat "(" (regexp-opt '("be" "de" "dm") t) "\\>"
               ;; Any whitespace and declared object.
               "[ \t]*"
@@ -254,20 +255,20 @@ See `run-hooks'."
       '(2 font-lock-function-name-face
           nil t ) )
      (list (concat "\\<"
-                   (regexp-opt '("NIL" "T") t)  
+                   (regexp-opt '("NIL" "T") t)
                    "\\>" )
            '(1 font-lock-constant-face) )
      (list
       (concat "\\<"
               (regexp-opt '("*OS" "*DB" "*Solo" "*PPid" "*Pid" "@" "@@" "@@@"
                             "This" "*Dbg" "*Zap" "*Scl" "*Class" "*Dbs" "*Run"
-                            "*Hup" "*Sig1" "*Sig2" "^" "*Err" "*Msg" "*Uni" 
+                            "*Hup" "*Sig1" "*Sig2" "^" "*Err" "*Msg" "*Uni"
                             "*Led" "*Adr" "*Allow" "*Fork" "*Bye" ) t )
               "\\>" )
       '(1 font-lock-builtin-face) )
      ;; This is so we make the point used in conses more visible
      '("\\<\\(\\.\\)\\>" (1 font-lock-negation-char-face))
-     '("(\\(====\\)\\>" (1 font-lock-negation-char-face)) 
+     '("(\\(====\\)\\>" (1 font-lock-negation-char-face))
      (list ;; Functions that modify @
       (concat "("
               (regexp-opt '("prog1" "prog2"
@@ -292,86 +293,86 @@ See `run-hooks'."
               (concat
                "(" (regexp-opt
                     '( ;; Symbol Functions
-                      "new" "sym" "str" "char" "name" "sp?" "pat?" "fun?" "all" 
-                      "intern" "extern" "qsym" "loc" "box?" "str?" "ext?" 
-                      "touch" "zap" "length" "size" "format" "chop" "pack" 
-                      "glue" "pad" "align" "center" "text" "wrap" "pre?" "sub?" 
-                      "low?" "upp?" "lowc" "uppc" "fold" "val" "getd" "set" 
-                      "setq" "def" "de" "dm" "recur" "undef" "redef" "daemon" 
-                      "patch" "xchg" "on" "off" "onOff" "zero" "one" "default" 
-                      "expr" "subr" "let" "let?" "use" "accu" "push" "push1" 
-                      "pop" "cut" "del" "queue" "fifo" "idx" "lup" "cache" 
+                      "new" "sym" "str" "char" "name" "sp?" "pat?" "fun?" "all"
+                      "intern" "extern" "qsym" "loc" "box?" "str?" "ext?"
+                      "touch" "zap" "length" "size" "format" "chop" "pack"
+                      "glue" "pad" "align" "center" "text" "wrap" "pre?" "sub?"
+                      "low?" "upp?" "lowc" "uppc" "fold" "val" "getd" "set"
+                      "setq" "def" "de" "dm" "recur" "undef" "redef" "daemon"
+                      "patch" "xchg" "on" "off" "onOff" "zero" "one" "default"
+                      "expr" "subr" "let" "let?" "use" "accu" "push" "push1"
+                      "pop" "cut" "del" "queue" "fifo" "idx" "lup" "cache"
                       "locale" "dirname"
                       ;; Property Access
                       "put" "get" "prop" ";" "=:" ":" "::" "putl" "getl" "wipe" ;
                       "meta"
                       ;; Predicates
-                      "atom" "pair" "lst?" "num?" "sym?" "flg?" "sp?" "pat?" 
-                      "fun?" "box?" "str?" "ext?" "bool" "not" "==" "n==" "=" 
+                      "atom" "pair" "lst?" "num?" "sym?" "flg?" "sp?" "pat?"
+                      "fun?" "box?" "str?" "ext?" "bool" "not" "==" "n==" "="
                       "<>" "=0" "=T" "n0" "nT" "<" "<=" ">" ">=" "match"
                       ;; Arithmetics
-                      "+" "-" "*" "/" "%" "*/" "**" "inc" "dec" ">>" "lt0" 
-                      "ge0" "gt0" "abs" "bit?" "&" "|" "x|" "sqrt" "seed" 
-                      "rand" "max" "min" "length" "size" "accu" "format" "pad" 
+                      "+" "-" "*" "/" "%" "*/" "**" "inc" "dec" ">>" "lt0"
+                      "ge0" "gt0" "abs" "bit?" "&" "|" "x|" "sqrt" "seed"
+                      "rand" "max" "min" "length" "size" "accu" "format" "pad"
                       "oct" "hex" "fmt64" "money"
                       ;; List Processing
-                      "car" "cdr" "caar" "cadr" "cdar" "cddr" "caaar" "caadr" 
-                      "cadar" "caddr" "cdaar" "cdadr" "cddar" "cdddr" "cadddr" 
-                      "cddddr" "nth" "con" "cons" "conc" "circ" "rot" "list" 
-                      "need" "full" "make" "made" "chain" "link" "yoke" "copy" 
-                      "mix" "append" "delete" "delq" "replace" "insert" 
-                      "remove" "place" "strip" "split" "reverse" "flip" "trim" 
-                      "clip" "head" "tail" "stem" "fin" "last" "member" "memq" 
-                      "mmeq" "sect" "diff" "index" "offset" "assoc" "asoq" 
-                      "rank" "sort" "uniq" "group" "length" "size" "val" "set" 
-                      "xchg" "push" "push1" "pop" "cut" "queue" "fifo" "idx" 
+                      "car" "cdr" "caar" "cadr" "cdar" "cddr" "caaar" "caadr"
+                      "cadar" "caddr" "cdaar" "cdadr" "cddar" "cdddr" "cadddr"
+                      "cddddr" "nth" "con" "cons" "conc" "circ" "rot" "list"
+                      "need" "full" "make" "made" "chain" "link" "yoke" "copy"
+                      "mix" "append" "delete" "delq" "replace" "insert"
+                      "remove" "place" "strip" "split" "reverse" "flip" "trim"
+                      "clip" "head" "tail" "stem" "fin" "last" "member" "memq"
+                      "mmeq" "sect" "diff" "index" "offset" "assoc" "asoq"
+                      "rank" "sort" "uniq" "group" "length" "size" "val" "set"
+                      "xchg" "push" "push1" "pop" "cut" "queue" "fifo" "idx"
                       "balance" "get" "fill" "apply" "range"
                       ;; Control Flow
-                      "load" "args" "next" "arg" "rest" "pass" "quote" "as" 
-                      "pid" "lit" "eval" "run" "macro" "curry" "def" "de" "dm" 
-                      "recur" "recurse" "undef" "box" "new" "type" "isa" 
-                      "method" "meth" "send" "try" "super" "extra" "with" 
+                      "load" "args" "next" "arg" "rest" "pass" "quote" "as"
+                      "pid" "lit" "eval" "run" "macro" "curry" "def" "de" "dm"
+                      "recur" "recurse" "undef" "box" "new" "type" "isa"
+                      "method" "meth" "send" "try" "super" "extra" "with"
                       "bind" "job" "let" "let?" "use" "xor" "bool" "nil" "t"
                       "prog" "at" "catch" "throw" "finally" "!" "e" "$" "sys"
                       "call" "tick" "ipid" "opid" "kill" "quit" "task" "fork"
                       "pipe" "later" "timeout" "abort" "bye"
                       ;; Mapping
-                      "apply" "pass" "maps" "map" "mapc" "maplist" "mapcar" 
-                      "mapcon" "mapcan" "filter" "extract" "seek" "find" "pick" 
-                      "cnt" "sum" "maxi" "mini" "fish" "by" 
+                      "apply" "pass" "maps" "map" "mapc" "maplist" "mapcar"
+                      "mapcon" "mapcan" "filter" "extract" "seek" "find" "pick"
+                      "cnt" "sum" "maxi" "mini" "fish" "by"
                       ;; Input/Output
-                      "path" "in" "ipid" "out" "opid" "pipe" "ctl" "any" "sym" 
-                      "str" "load" "hear" "tell" "key" "poll" "peek" "char" 
-                      "skip" "eol" "eof" "from" "till" "line" "format" "scl" 
-                      "read" "print" "println" "printsp" "prin" "prinl" "msg" 
-                      "space" "beep" "tab" "flush" "rewind" "rd" "pr" "wr" 
-                      "rpc" "wait" "sync" "echo" "info" "file" "dir" "lines" 
-                      "open" "close" "port" "listen" "accept" "host" "connect" 
-                      "nagle" "udp" "script" "once" "rc" "pretty" "pp" "show" 
+                      "path" "in" "ipid" "out" "opid" "pipe" "ctl" "any" "sym"
+                      "str" "load" "hear" "tell" "key" "poll" "peek" "char"
+                      "skip" "eol" "eof" "from" "till" "line" "format" "scl"
+                      "read" "print" "println" "printsp" "prin" "prinl" "msg"
+                      "space" "beep" "tab" "flush" "rewind" "rd" "pr" "wr"
+                      "rpc" "wait" "sync" "echo" "info" "file" "dir" "lines"
+                      "open" "close" "port" "listen" "accept" "host" "connect"
+                      "nagle" "udp" "script" "once" "rc" "pretty" "pp" "show"
                       "view" "here" "prEval" "mail"
                       ;; Object Orientation
-                      "*Class" "class" "dm" "rel" "var" "var:" "new" "type" 
-                      "isa" "method" "meth" "send" "try" "object" "extend" 
-                      "super" "extra" "with" "This" 
+                      "*Class" "class" "dm" "rel" "var" "var:" "new" "type"
+                      "isa" "method" "meth" "send" "try" "object" "extend"
+                      "super" "extra" "with" "This"
                       ;; Database
-                      "pool" "journal" "id" "seq" "lieu" "lock" "begin" 
-                      "commit" "rollback" "mark" "free" "dbck" "rel" "dbs" 
-                      "dbs+" "db:" "fmt64" "tree" "root" "fetch" "store" 
-                      "count" "leaf" "minKey" "maxKey" "genKey" "useKey" "init" 
-                      "step" "scan" "iter" "prune" "zapTree" "chkTree" "db" 
-                      "aux" "collect" 
+                      "pool" "journal" "id" "seq" "lieu" "lock" "begin"
+                      "commit" "rollback" "mark" "free" "dbck" "rel" "dbs"
+                      "dbs+" "db:" "fmt64" "tree" "root" "fetch" "store"
+                      "count" "leaf" "minKey" "maxKey" "genKey" "useKey" "init"
+                      "step" "scan" "iter" "prune" "zapTree" "chkTree" "db"
+                      "aux" "collect"
                       ;; Pilog
-                      "goal" "prove" "->" "unify" "?" 
+                      "goal" "prove" "->" "unify" "?"
                       ;; Debugging
-                      "pretty" "pp" "show" "loc" "debug" "vi" "ld" "trace" 
+                      "pretty" "pp" "show" "loc" "debug" "vi" "ld" "trace"
                       "lint" "lintAll" "fmt64"
                       ;; System Functions
-                      "cmd" "argv" "opt" "gc" "raw" "alarm" "protect" "heap" 
-                      "env" "up" "date" "time" "usec" "stamp" "dat$" "$dat" 
-                      "datSym" "datStr" "strDat" "expDat" "day" "week" "ultimo" 
-                      "tim$" "$tim" "telStr" "expTel" "locale" "allowed" 
-                      "allow" "pwd" "cd" "chdir" "ctty" "info" "dir" "dirname" 
-                      "call" "tick" "kill" "quit" "task" "fork" "pipe" 
+                      "cmd" "argv" "opt" "gc" "raw" "alarm" "protect" "heap"
+                      "env" "up" "date" "time" "usec" "stamp" "dat$" "$dat"
+                      "datSym" "datStr" "strDat" "expDat" "day" "week" "ultimo"
+                      "tim$" "$tim" "telStr" "expTel" "locale" "allowed"
+                      "allow" "pwd" "cd" "chdir" "ctty" "info" "dir" "dirname"
+                      "call" "tick" "kill" "quit" "task" "fork" "pipe"
                       "timeout" "mail" "test" "bye" ) t )
                "\\>" ) 1 ) ) ) )
   "Gaudy expressions to highlight in Picolisp modes." )
@@ -481,7 +482,6 @@ rigidly along with this one."
                      method )
                    state indent-point normal-indent ) ) ) ) ) )
 
-
 ;;; Some functions are different in picoLisp
 (defun picolisp-indent (state indent-point normal-indent)
   (let ((lisp-body-indent picolisp-body-indent))
@@ -502,12 +502,12 @@ rigidly along with this one."
     (condition-case nil     ; This is to avoid fuck-ups when there are
         (progn              ; unbalanced expressions.
           (up-list)
-          (back-to-indentation)     
+          (back-to-indentation)
           (while (and (re-search-forward ")" (line-end-position) t)
                       (< (point) (line-end-position)) )
             (if (and (not (picolisp-in-comment-p))
                      (not (picolisp-in-string-p)) )
-                (picolisp-delete-leading-whitespace) ) )        
+                (picolisp-delete-leading-whitespace) ) )
           (if (and (not (picolisp-in-comment-p))
                    (not (picolisp-in-string-p)) )
               (picolisp-delete-leading-whitespace) ) )
@@ -538,7 +538,7 @@ rigidly along with this one."
 
 
 ;; Parser functions
-  
+
 (defun picolisp-current-parse-state ()
   "Return parse state of point from beginning of defun."
   (let ((point (point)))
@@ -546,7 +546,7 @@ rigidly along with this one."
     ;; Calling PARSE-PARTIAL-SEXP will advance the point to its second
     ;; argument (unless parsing stops due to an error, but we assume it
     ;; won't in picolisp-mode).
-    (parse-partial-sexp (point) point) ) )  
+    (parse-partial-sexp (point) point) ) )
 
 (defun picolisp-in-string-p (&optional state)
   "True if the parse state is within a double-quote-delimited string.
@@ -554,7 +554,7 @@ If no parse state is supplied, compute one from the beginning of the
   defun to the point."
   ;; 3. non-nil if inside a string (the terminator character, really)
   (and (nth 3 (or state (picolisp-current-parse-state)))
-       t ) )  
+       t ) )
 (defun picolisp-in-comment-p (&optional state)
   "True if parse state STATE is within a comment.
 If no parse state is supplied, compute one from the beginning of the
@@ -562,7 +562,7 @@ If no parse state is supplied, compute one from the beginning of the
   ;; 4. nil if outside a comment, t if inside a non-nestable comment,
   ;;    else an integer (the current comment nesting)
   (and (nth 4 (or state (picolisp-current-parse-state)))
-       t ) )  
+       t ) )
 
 (defun picolisp-in-char-p (&optional argument)
   "True if the point is immediately after a character literal.
@@ -575,7 +575,7 @@ Assumes that `picolisp-in-string-p' is false, so that it need not handle
   and Common Lisp.)"
   (let ((argument (or argument (point))))
     (and (eq (char-before argument) ?\\)
-         (not (eq (char-before (1- argument)) ?\\)) ) ) ) 
+         (not (eq (char-before (1- argument)) ?\\)) ) ) )
 
 (add-to-list 'auto-mode-alist '("\\.l$" . picolisp-mode))
 
@@ -588,7 +588,7 @@ Assumes that `picolisp-in-string-p' is false, so that it need not handle
   "Write symbol at point with line number in last line of edit-buffer.
 
 If the symbol is a transient symbol, write it with double-quotes,
-otherwise as unquoted word. The output-format is: 
+otherwise as unquoted word. The output-format is:
 
 \(<line-number> <symbol>\)
  e.g.
@@ -630,7 +630,6 @@ does\)."
         (insert (format "%S" k-list))
         (save-buffers-kill-terminal 1)))))
 
-
 (defun picolisp-edit-Q ()
   "Write '(0)' in last line of PicoLisp edit-buffer."
   (interactive)
@@ -641,6 +640,121 @@ does\)."
       (newline)
       (insert "(0)")
       (save-buffers-kill-terminal 1))))
+
+;; --------------------------------
+;; Taken from Alexis' picolisp mode
+;; --------------------------------
+(defvar picolisp-builtins
+  '("!" "$" "$dat" "$tim" "%" "&" "*" "**" "*/" "*Allow" "*Bye" "*CPU" "*Class" "*Class" "*DB" "*Dbg" "*Dbg" "*Dbs" "*EAdr" "*Err" "*Fork" "*Hup" "*Led" "*Msg" "*OS" "*PPid" "*Pid" "*Prompt" "*Run" "*Scl" "*Sig1" "*Sig2" "*Solo" "*Tsm" "*Uni" "*Zap" "+" "+Alt" "+Any" "+Aux" "+Bag" "+Blob" "+Bool" "+Date" "+Dep" "+Entity" "+Fold" "+Hook" "+Hook2" "+Idx" "+IdxFold" "+Joint" "+Key" "+Link" "+List" "+Mis" "+Need" "+Number" "+Ref" "+Ref2" "+Sn" "+String" "+Swap" "+Symbol" "+Time" "+UB" "+index" "+relation" "-" "->" "/" ":" "::" ";" "<" "<=" "<>" "=" "=0" "=:" "==" "====" "=T" ">" ">=" ">>" "?" "@" "@@" "@@@" "This" "^" "abort" "abs" "accept" "accu" "acquire" "adr" "alarm" "align" "all" "allow" "allowed" "and" "any" "append" "append/3" "apply" "arg" "args" "argv" "as" "asoq" "assert" "asserta" "asserta/1" "assertz" "assertz/1" "assoc" "at" "atom" "aux" "balance" "be" "beep" "bench" "bin" "bind" "bit?" "blob" "blob!" "bool" "bool/3" "box" "box?" "by" "bye" "bytes" "caaaar" "caaadr" "caaar" "caadar" "caaddr" "caadr" "caar" "cache" "cadaar" "cadadr" "cadar" "caddar" "cadddr" "caddr" "cadr" "call" "call/1" "can" "car" "case" "casq" "catch" "cd" "cdaaar" "cdaadr" "cdaar" "cdadar" "cdaddr" "cdadr" "cdar" "cddaar" "cddadr" "cddar" "cdddar" "cddddr" "cdddr" "cddr" "cdr" "center" "chain" "char" "chdir" "chkTree" "chop" "circ" "circ?" "class" "clause" "clause/2" "clip" "close" "cmd" "cnt" "co" "collect" "commit" "con" "conc" "cond" "connect" "cons" "copy" "count" "ctl" "ctty" "curry" "cut" "d" "daemon" "dat$" "datStr" "datSym" "date" "day" "db" "db/3" "db/4" "db/5" "db:" "dbSync" "dbck" "dbs" "dbs+" "de" "debug" "dec" "def" "default" "del" "delete" "delete/3" "delq" "dep" "depth" "diff" "different/2" "dir" "dirname" "dm" "do" "doc" "e" "echo" "edit" "em" "env" "eof" "eol" "equal/2" "err" "errno" "eval" "expDat" "expTel" "expr" "ext?" "extend" "extern" "extra" "extract" "fail" "fail/0" "fetch" "fifo" "file" "fill" "filter" "fin" "finally" "find" "fish" "flg?" "flip" "flush" "fmt64" "fold" "fold/3" "for" "fork" "forked" "format" "free" "from" "full" "fully" "fun?" "gc" "ge0" "genKey" "get" "getd" "getl" "glue" "goal" "group" "gt0" "hash" "hax" "hd" "head" "head/3" "heap" "hear" "here" "hex" "host" "id" "idx" "if" "if2" "ifn" "import" "in" "inc" "inc!" "index" "info" "init" "insert" "intern" "ipid" "isa" "isa/2" "iter" "job" "journal" "key" "kids" "kill" "last" "later" "ld" "le0" "leaf" "length" "let" "let?" "lieu" "line" "lines" "link" "lint" "lintAll" "list" "listen" "lit" "load" "loc" "local" "locale" "lock" "loop" "low?" "lowc" "lst/3" "lst?" "lt0" "lup" "macro" "made" "mail" "make" "map" "map/3" "mapc" "mapcan" "mapcar" "mapcon" "maplist" "maps" "mark" "match" "max" "maxKey" "maxi" "member" "member/2" "memq" "meta" "meth" "method" "min" "minKey" "mini" "mix" "mmeq" "money" "more" "msg" "n0" "n==" "nT" "name" "nand" "native" "need" "new" "new!" "next" "nil" "nil/1" "nond" "nor" "not" "not/1" "nth" "num?" "obj" "object" "oct" "off" "offset" "on" "onOff" "once" "one" "open" "opid" "opt" "or" "or/2" "out" "pack" "pad" "pair" "part/3" "pass" "pat?" "patch" "path" "peek" "permute/2" "pick" "pico" "pilog" "pipe" "place" "poll" "pool" "pop" "port" "pp" "pr" "prEval" "pre?" "pretty" "prin" "prinl" "print" "println" "printsp" "prior" "proc" "prog" "prog1" "prog2" "prop" "protect" "prove" "prune" "push" "push1" "put" "put!" "putl" "pwd" "qsym" "query" "queue" "quit" "quote" "rand" "range" "range/3" "rank" "raw" "rc" "rd" "read" "recur" "recurse" "redef" "rel" "release" "remote/2" "remove" "repeat" "repeat/0" "replace" "request" "rest" "retract" "retract/1" "reverse" "rewind" "rollback" "root" "rot" "round" "rules" "run" "same/3" "scan" "scl" "script" "sect" "seed" "seek" "select" "select/3" "send" "seq" "set" "set!" "setq" "show" "show/1" "sigio" "size" "skip" "solve" "sort" "sp?" "space" "split" "sqrt" "stack" "stamp" "state" "stem" "step" "store" "str" "str?" "strDat" "strip" "sub?" "subr" "sum" "super" "sym" "sym?" "symbols" "sync" "sys" "t" "tab" "tail" "task" "telStr" "tell" "test" "text" "throw" "tick" "till" "tim$" "time" "timeout" "tmp" "tolr/3" "touch" "trace" "traceAll" "trail" "tree" "trim" "true/0" "try" "type" "u" "ubIter" "udp" "ultimo" "unbug" "undef" "unify" "uniq" "uniq/2" "unless" "until" "untrace" "up" "upd" "update" "upp?" "uppc" "use" "useKey" "usec" "val" "val/3" "var" "var:" "version" "vi" "view" "wait" "week" "what" "when" "while" "who" "wipe" "with" "wr" "wrap" "xchg" "xor" "x|" "yield" "yoke" "zap" "zapTree" "zero" "|"))
+
+(defcustom picolisp-documentation-directory "/usr/share/doc/picolisp/"
+  "Absolute path of the PicoLisp HTML documentation directory."
+  :type 'directory
+  :group 'picolisp)
+
+(defcustom picolisp-documentation-method 'picolisp--shr-documentation
+  "System to be used to display PicoLisp documentation."
+  :type '(radio (function :tag "Function - must already be defined" :value 'picolisp--shr-documentation)
+                (file :tag "HTML browser - absolute path" :value "/usr/bin/lynx"))
+  :group 'picolisp)
+
+(defcustom picolisp-repl-debug-p t
+  "Whether to enable debug mode in the REPL.
+Must be `t' to access documentation via `picolisp-describe-symbol'."
+  :type 'boolean
+  :group 'picolisp)
+
+(define-key picolisp-mode-map (kbd "C-c C-d") 'picolisp-describe-symbol)
+
+(defun picolisp--eldoc-function ()
+  "Function for use by `eldoc-documentation-function'."
+  (let* ((sym (symbol-name (symbol-at-point)))
+         (dl (picolisp--extract-reference-documentation sym))
+         (result nil))
+    (unless (string= "nil" sym)
+      (dotimes (i (/ (length dl) 2))
+        (let ((fst (nth (* i 2) dl))
+              (snd (nth (1+ (* i 2)) dl)))
+          (if (eq 'dt (car-safe fst))
+              (cond
+               ((eq 'cons (type-of (nth 2 fst)))
+                (if (string= sym (cdaadr (nth 2 fst)))
+                    (setq result (concat (propertize (concat sym ", ") 'face 'picolisp-builtin-face)
+                                         (nth 2 (car (cdr (cdr (nth 2 fst)))))))))
+               ;; Ignore edge-cases in the documentation structure, such
+               ;; as the documentation for `c[ad]*ar'.
+               ((eq 'string (type-of (nth 2 fst)))
+                (setq result nil))))))
+      result)))
+
+(defun picolisp--extract-reference-documentation (sym)
+  "Helper function to extract the 'Function Reference' definition
+list from the PicoLisp documentation, where SYM is the symbol being
+looked up."
+  (let* ((char (progn
+                 (string-match "^[[:punct:]]*\\([[:punct:]]\\|[[:alpha:]]\\)" sym)
+                 (upcase (match-string 1 sym))))
+         (doc (if (string-match "[[:alpha:]]" char)
+                  (concat picolisp-documentation-directory "ref" char ".html")
+                (concat picolisp-documentation-directory "ref_.html")))
+         (bfr (generate-new-buffer " *PicoLisp documentation source*"))
+         (dom (progn
+                (switch-to-buffer bfr)
+                (insert-file-contents doc)
+                (libxml-parse-html-region (point-min) (point-max))))
+         (dl (nth 5 (nth 3 dom))))
+    (kill-buffer bfr)
+    dl))
+
+(make-local-variable 'eldoc-documentation-function)
+(setq eldoc-documentation-function #'picolisp--eldoc-function)
+
+(defun picolisp--shr-documentation (sym)
+  "Use `shr' to display documentation for symbol SYM at point."
+  (unless (or (> emacs-major-version 24)
+              (and (= emacs-major-version 24)
+                   (> emacs-minor-version 3)))
+    (error "Emacs 24.4 or greater required"))
+  (let ((dl (picolisp--extract-reference-documentation sym)))
+    (dotimes (i (/ (length dl) 2))
+      (let ((fst (nth (* i 2) dl))
+            (snd (nth (1+ (* i 2)) dl)))
+        (if (eq 'dt (car-safe fst))
+            (cond
+             ((eq 'cons (type-of (nth 2 fst)))
+              (if (string= sym (cdr (car (car (cdr (nth 2 fst))))))
+                  (progn
+                    (switch-to-buffer (generate-new-buffer (concat "*PicoLisp documentation - '" sym "' *")))
+                    (insert (concat (propertize "Symbol:" 'face '(foreground-color . "ForestGreen")) " " (propertize sym 'face 'picolisp-builtin-face) "\n\n"))
+                    (shr-insert-document snd)
+                    (goto-char (point-min))
+                    (help-mode))))
+             ;; Ignore edge-cases in the documentation structure, such
+             ;; as the documentation for `class'.
+             ((eq 'string (type-of (nth 2 fst)))
+              nil)))))))
+
+(defun picolisp-describe-symbol ()
+  "Display documentation for symbol at point, via method
+specified by `picolisp-documentation-method'."
+  (interactive)
+  (let ((process-environment
+         (if (eq 'string (type-of picolisp-documentation-method))
+             (add-to-list 'process-environment
+                          (concat "BROWSER=" picolisp-documentation-method))
+           process-environment))
+        (sym (symbol-name
+              (symbol-at-point))))
+    (if (member sym picolisp-builtins)
+        (cond
+         ((eq 'symbol (type-of picolisp-documentation-method))
+          (picolisp--shr-documentation sym))
+         ((eq 'string (type-of picolisp-documentation-method))
+          (start-process-shell-command "picolisp-doc" nil
+                                       (concat "pil -\"doc (car (nth (argv) 3)\" -bye - '" sym "' +")))
+         (t
+          (error "Unexpected value type in picolisp-documentation-method")))
+      (message "No PicoLisp builtin at point."))))
 
 
 ;; The following two functions have been written by Xah Lee and copied
@@ -755,6 +869,6 @@ The main differences are:
 (ignore-errors
  (when tsm-lock
    (font-lock-add-keywords 'picolisp-mode tsm-lock)
-   (font-lock-add-keywords 'inferior-picolisp-mode tsm-lock) ) ) 
+   (font-lock-add-keywords 'inferior-picolisp-mode tsm-lock) ) )
 
 (provide 'picolisp)
