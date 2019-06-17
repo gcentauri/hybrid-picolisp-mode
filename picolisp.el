@@ -679,7 +679,7 @@ Must be `t' to access documentation via `picolisp-describe-symbol'."
               (cond
                ((eq 'cons (type-of (nth 2 fst)))
                 (if (string= sym (cdaadr (nth 2 fst)))
-                    (setq result (concat (propertize (concat sym ", ") 'face 'picolisp-builtin-face)
+                    (setq result (concat (propertize (concat sym ", ") 'face 'font-lock-builtin-face)
                                          (nth 2 (car (cdr (cdr (nth 2 fst)))))))))
                ;; Ignore edge-cases in the documentation structure, such
                ;; as the documentation for `c[ad]*ar'.
@@ -725,7 +725,7 @@ looked up."
               (if (string= sym (cdr (car (car (cdr (nth 2 fst))))))
                   (progn
                     (switch-to-buffer (generate-new-buffer (concat "*PicoLisp documentation - '" sym "' *")))
-                    (insert (concat (propertize "Symbol:" 'face '(foreground-color . "ForestGreen")) " " (propertize sym 'face 'picolisp-builtin-face) "\n\n"))
+                    (insert (concat (propertize "Symbol:" 'face '(foreground-color . "ForestGreen")) " " (propertize sym 'face 'font-lock-builtin-face) "\n\n"))
                     (shr-insert-document snd)
                     (goto-char (point-min))
                     (help-mode))))
